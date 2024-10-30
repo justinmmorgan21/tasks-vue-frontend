@@ -5,6 +5,8 @@
   import TasksShow from "./TasksShow.vue"
   import Modal from "./Modal.vue";
 
+  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
   export default {
     components: {
       TasksIndex,
@@ -33,9 +35,8 @@
           this.tasks = response.data;
         });
       },
-      // FIX THIS CREATE ACTION LATER - not passing params properly?
       handleCreateTask: function (params) {
-        console.log("params", params);
+        console.log("params sent to backend:", params);
         axios.post("http://localhost:5000/tasks.json", params).then(response => {
           console.log("tasks create", response);
           this.tasks.push(response.data);
