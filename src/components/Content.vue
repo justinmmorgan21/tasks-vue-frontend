@@ -5,7 +5,9 @@
   import TasksShow from "./TasksShow.vue"
   import Modal from "./Modal.vue";
 
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+  axios.defaults.headers.post = axios.defaults.headers.patch = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
 
   export default {
     components: {
@@ -50,7 +52,6 @@
         this.currentTask = task;
         this.isTaskShowVisible = true;
       },
-      // FIX THIS UPDATE ACTION LATER - not passing params properly?
       handleUpdateTask: function (id, params) {
       console.log("handleUpdateTask", id, params);
       axios
