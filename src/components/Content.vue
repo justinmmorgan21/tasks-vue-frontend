@@ -1,10 +1,14 @@
 <script>
   import axios from "axios";
   import TasksIndex from "./TasksIndex.vue";
+  import TasksNew from "./TasksNew.vue";
+  import Modal from "./Modal.vue";
 
   export default {
     components: {
       TasksIndex,
+      TasksNew,
+      Modal
     },
     data: function() {
       return {
@@ -25,13 +29,27 @@
           this.tasks = response.data;
         });
       },
+      handleCreateTask: function (params) {
+        console.log("params", params);
+        axios.post("http://localhost:5000/tasks.json", params).then(response => {
+          console.log("tasks create", response);
+          this.tasks.push(response.data);
+        })
+        .catch((error) => {
+          console.log("tasks create error", error.repsonse);
+        });
+      }
     },
   };
 </script>
 
 <template>
   <main>
+    <TasksNew v-on:createTask="handleCreateTask"/>
     <TasksIndex v-bind:tasks="tasks"/>
+    <Modal v-bind:show="true">
+      <h1>Test</h1>
+    </Modal>
   </main>
 </template>
 
