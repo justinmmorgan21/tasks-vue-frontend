@@ -13,6 +13,7 @@ export default {
       <h2>{{  task.name }}</h2>
       <p>estimated time: {{ task.estimated_time }}</p>
       <p>deadline: {{ task.deadline }}</p>
+      <button v-on:click="$emit('showTask', task)">More info</button>
       <hr>
     </div>
   </div>

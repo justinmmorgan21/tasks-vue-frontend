@@ -29,7 +29,7 @@ export default {
 
 .modal-main {
   position: fixed;
-  background: white;
+  background: darkgray;
   width: 80%;
   height: auto;
   top: 50%;
