@@ -33,7 +33,7 @@
           this.tasks = response.data;
         });
       },
-      // FIX THIS CREATE ACTION LATER
+      // FIX THIS CREATE ACTION LATER - not passing params properly?
       handleCreateTask: function (params) {
         console.log("params", params);
         axios.post("http://localhost:5000/tasks.json", params).then(response => {
@@ -49,6 +49,35 @@
         this.currentTask = task;
         this.isTaskShowVisible = true;
       },
+      // FIX THIS UPDATE ACTION LATER - not passing params properly?
+      handleUpdateTask: function (id, params) {
+      console.log("handleUpdateTask", id, params);
+      axios
+        .patch(`http://localhost:5000/tasks/${id}.json`, params)
+        .then((response) => {
+          console.log("tasks update", response);
+          this.tasks = this.tasks.map((task) => {
+            if (task.id === response.data.id) {
+              return response.data;
+            } else {
+              return task;
+            }
+          });
+          console.log("CLOSING");
+          this.handleClose();
+        })
+        .catch((error) => {
+          console.log("tasks update error", error.response);
+        });
+      },
+      handleDestroyTask: function (task) {
+        axios.delete(`http://localhost:5000/tasks/${task.id}.json`).then(response => {
+          console.log("tasks destroy", response);
+          var index = this.tasks.indexOf(task);
+          this.tasks.splice(index, 1);
+          this.handleClose();
+        });
+      },
       handleClose: function () {
         this.isTaskShowVisible = false;
       }
@@ -61,7 +90,7 @@
     <TasksNew v-on:createTask="handleCreateTask"/>
     <TasksIndex v-bind:tasks="tasks" v-on:showTask="handleShowTask"/>
     <Modal v-bind:show="isTaskShowVisible" v-on:close="handleClose">
-      <TasksShow v-bind:task="currentTask"/>
+      <TasksShow v-bind:task="currentTask" v-on:updateTask="handleUpdateTask" v-on:destroyTask="handleDestroyTask"/>
     </Modal>
   </main>
 </template>
